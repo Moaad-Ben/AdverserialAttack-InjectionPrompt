@@ -1,23 +1,33 @@
 __author__ = "Moaad Ben Amar"
 
-import requests
+from textattack.attack_results import SuccessfulAttackResult, SkippedAttackResult
 
-API_URL = "https://api-inference.huggingface.co/models/winglian/llama-adapter-13b"
-headers = {"Authorization": "Bearer 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"}
-
-
-def query(payload):
-    response = requests.post(API_URL, headers=headers, json=payload)
-    print(response)
-    return response.json()
+import utils
 
 
-output = query({
-    "inputs": {
-        "past_user_inputs": ["Which movie is the best ?"],
-        "generated_responses": ["It's Die Hard for sure."],
-        "text": "Can you explain why ?"
-    },
-})
+class MpManager:
+    def __init__(self, dataset):
+        self.dataset = dataset
+        self.totalAttacks = 0
 
-print(output)
+    def countTotalAttacksUP(self):
+        self.totalAttacks += 1
+
+
+def attackTheModelMP(tmpDataSet, attackRecipe):
+    attackTimer = utils.Timer()
+    text = tmpDataSet["text"]
+    trueLabel = tmpDataSet["label"]
+    attackResult = attackRecipe.attack(text, trueLabel)
+
+    print(f"Original Text: {text}")
+    print(f"Original Label: {trueLabel}")
+    print("Time for Attack:" + attackTimer.timePastAsStr())
+    if isinstance(attackResult, SuccessfulAttackResult):
+        print("Successful Attack")
+        print(f"Attack result: {attackResult}")
+        print(f"Perturbed Text: {attackResult.perturbed_result.attacked_text}")
+
+    elif isinstance(attackResult, SkippedAttackResult):
+        print("Skipped Attack")
+        print(f"Attack result: {attackResult}")
