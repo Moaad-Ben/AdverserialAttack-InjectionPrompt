@@ -5,6 +5,56 @@ import time
 import logging
 
 
+def loadTxtAsLst(fileName):
+    filePath = f"Injection_Prompts/{fileName}.txt"
+    with open(filePath, 'r') as file:
+        lines = file.readlines()
+        lines = [line.strip() for line in lines]
+    return lines
+
+
+class TextAttackLogger:
+    def __init__(self, log_file="LOGS/AdversarialAttack"):
+        self.logger = None  # tflogging.get_logger(__name__)
+        self.logger.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+
+        # Create a StreamHandler to output logs to the console
+        console_handler = logging.StreamHandler()
+        console_handler.setLevel(logging.DEBUG)
+        console_handler.setFormatter(formatter)
+
+        # Create a FileHandler to write logs to a file
+        # file_handler = RotatingFileHandler(log_file, maxBytes=10 * 1024 * 1024, backupCount=5)
+        # file_handler.setLevel(logging.DEBUG)
+        # file_handler.setFormatter(formatter)
+
+        # Add the handlers to the logger
+        self.logger.addHandler(console_handler)
+        # self.logger.addHandler(file_handler)
+
+    def log(self, message):
+        self.logger.info(message)
+
+    def log_attack_result(self, attack_result, attack_timer):
+        type_of_attack = type(attack_result)
+        perturbed_text = attack_result.perturbed_result.attacked_text
+        perturbed_label = attack_result.perturbed_result.attacked_text
+
+        print(f"AttackResultType: {type_of_attack}")
+        print(f"Attack result: {attack_result}")
+        print(f"Perturbed Text: {perturbed_text}")
+        print(f"Perturbed Label: {perturbed_label}")
+        print(attack_timer.timePastAsStr() + " sec")
+        print()
+
+        self.log(f"AttackResultType: {type_of_attack}")
+        self.log(f"Attack result: {attack_result}")
+        self.log(f"Perturbed Text: {perturbed_text}")
+        self.log(f"Perturbed Label: {perturbed_label}")
+        self.log(attack_timer.timePastAsStr() + " sec")
+
+
 class Logger:
     def __init__(self):
         self._logger = logging.getLogger("AdversarialAttack")
