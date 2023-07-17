@@ -32,14 +32,19 @@ class CustomGPT4AllModelWrapper:
     def __init__(self, taskType, attackType=None):
         # Initialize the CustomGPT4AllModelWrapper
         availableModels = [
-            "ggml-gpt4all-j-v1.3-groovy",
-            "ggml-gpt4all-l13b-snoozy",
-            "ggml-mpt-7b-chat",
-            "ggml-gpt4-x-alpaca-13b-native-4bit-128g"
+            "ggml-gpt4all-j-v1.3-groovy.bin",  # 0
+            "ggml-gpt4all-l13b-snoozy.bin",  # 1
+            "ggml-mpt-7b-chat.bin",  # 2
+            "ggml-gpt4-x-alpaca-13b-native-4bit-128g.bin",  # 3
+            "orca-mini-13b.ggmlv3.q4_0.bin",  # 4
+            "nous-hermes-13b.ggmlv3.q4_0.bin",  # 5
+            "ggml-wizardLM-7B.q4_2.bin",  # 6
+            "ggml-vicuna-13b-1.1-q4_2.bin",  # 7
+            "ggml-mpt-7b-instruct.bin"  # 8
         ]
-        self.gptj = gpt4all.GPT4All(model_name=availableModels[3],
+        self.gptj = gpt4all.GPT4All(model_name=availableModels[8],  # not all models can be used directly in Python
                                     model_path="C:/Users/benam/AppData/Local/nomic.ai/GPT4All/",
-                                    model_type="llama", allow_download=False)
+                                    allow_download=False)
         self.model = self.gptj.model
         self.tokenizer = None
         self.taskType = taskType

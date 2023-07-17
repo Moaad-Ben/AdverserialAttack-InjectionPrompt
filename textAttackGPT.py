@@ -144,8 +144,8 @@ def main():
     targetNumber = 5
     model_name = "GPT4All"
     # "bert2bert" # "facebook/bart-large" # "t5-base"  # "t5-large"  # "facebook/bart-large" # "google/pegasus-gigaword" # "gpt2"  # "bert-base-uncased"
-    taskType = "Text Summarization"  # Machine Translation /Text Summarization/ Text Classification/ Question Answering
-    injectionType = "Insert String"  # Insert String /Change Language /Jailbreak
+    taskType = "Machine Translation"  # Machine Translation /Text Summarization/ Text Classification/ Question Answering
+    injectionType = "No Injection"  #No Injection / Insert String /Change Language /Jailbreak
 
     # Step 1: Initialize the logger
     setupTimer = utils.Timer()
